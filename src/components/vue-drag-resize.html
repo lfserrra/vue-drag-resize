@@ -1,8 +1,8 @@
 <div class="vdr" :style="style"
      :class="active || isActive ? 'active' : 'inactive'"
      @mousedown="bodyDown($event)"
-     @touchstart="bodyDown($event)"
-     @touchend="up($event)">
+     @touchstart="bodyDown($event, true)"
+     @touchend="up($event, true)">
     <slot></slot>
     <div
             v-for="stick in sticks"

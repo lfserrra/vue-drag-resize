@@ -252,16 +252,16 @@ export default {
             }
         },
 
-        up(ev) {
+        up(ev, isTouch) {
             if (this.stickDrag) {
                 this.stickUp(ev);
             }
             if (this.bodyDrag) {
-                this.bodyUp(ev)
+                this.bodyUp(ev, isTouch)
             }
         },
 
-        bodyDown: function (ev) {
+        bodyDown: function (ev, isTouch) {
             let target = ev.target || ev.srcElement;
 
             if (!this.preventActiveBehavior) {
@@ -301,6 +301,10 @@ export default {
 
             if (this.parentLimitation) {
                 this.limits = this.calcDragLimitation();
+            }
+
+            if(isTouch){
+                this.$emit('touching', this.rect);
             }
         },
 
@@ -371,10 +375,14 @@ export default {
             this.$emit('dragging', this.rect);
         },
 
-        bodyUp() {
+        bodyUp(ev, isTouch) {
             this.bodyDrag = false;
             this.$emit('dragging', this.rect);
             this.$emit('dragstop', this.rect);
+
+            if(isTouch){
+                this.$emit('touchstop', this.rect);
+            }
 
             this.stickStartPos = {mouseX: 0, mouseY: 0, x: 0, y: 0, w: 0, h: 0};
             this.limits = {
